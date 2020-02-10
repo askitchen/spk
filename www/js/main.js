@@ -371,6 +371,17 @@ app.on('pageInit', function (page) {
     }
   });
 
+  /*
+  $$('#info').on('focus', function () {
+    
+    $$('.kb').css('height', '560px');
+    //var limit = $$(window).height() - 280;
+
+    if ($$(this).offset().top > 280) {
+      $$('.page-content').scrollTop($$(this).offset().top-560);
+    }
+  });*/
+
   $$('input, #info').on('blur', function () {
     $$('.kb').css('height', '0px');
   });
