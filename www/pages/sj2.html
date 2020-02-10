@@ -1,7 +1,8 @@
 <template>
         
   <div class="block content">
-    <div class="list no-hairlines-md">
+    
+    <!-- <div class="list no-hairlines-md">
       <ul>
         <li>
           <div class="row no-gutter">
@@ -20,7 +21,7 @@
           </div>
         </li>
       </ul>
-    </div>
+    </div> -->
     
     <!-- Default pull to refresh preloader-->
     <!-- <div class="ptr-preloader">
@@ -33,13 +34,13 @@
         <div class="card-content"> 
           <div class="card-content-inner" style="padding: 5px 16px;">
             <div style="width: 100%; display: inline-flex;">
-              <div style="width: 75%; margin-top: 4px"><b>{{customer_name}}</b></div>
+              <div style="width: 75%; margin-top: 4px"><b>{{nmbar}}</b></div>
               <div style="width: 25%;">
                 <a href="#" spkid="{{spkid}}" @click="uploadFoto1" class="button button-small button-fill color-blue btn-upload">Mulai</a>
                 <a href="#" spkid="{{spkid}}" @click="uploadFoto2" style="margin-top: 5px;" class="button button-small button-fill color-blue btn-finish">Selesai</a>
               </div>
             </div>
-            {{address_display}}
+            {{keluhan}}
           </div>
         </div>
       </div>
@@ -58,7 +59,7 @@
         var number = $$($btnEl).attr('spkid');
         
         app.request({
-          url: "https://askitchen.com/api/spk/cancel/" + number,
+          url: app.data.endpoint + "cancel/" + number,
           method: 'POST',
           contentType: 'application/json',
           statusCode: {
@@ -68,16 +69,11 @@
           }
         })
 
-      },*/
+      },
       dateChg: function (e) {
         app.data.currentDate = $$('#tgltrx2').val();
-          
         app.views.main.router.refreshPage();
-        // app.router.navigate('/', {
-        //   reloadCurrent: true,
-        //   ignoreCache: true,
-        // });
-      },
+      },*/
       
       uploadFoto1: function (e) {
         

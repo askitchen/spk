@@ -2,7 +2,7 @@
 
   <div class="block content">
         
-    <div class="list no-hairlines-md">
+    <!-- <div class="list no-hairlines-md">
       <ul>
         <li>
           <div class="row no-gutter">
@@ -21,7 +21,7 @@
           </div>
         </li>
       </ul>
-    </div>
+    </div> -->
     
     <!-- Default pull to refresh preloader-->
     <!-- <div class="ptr-preloader">
@@ -37,7 +37,7 @@
             <div style="width: 75%; margin-top: 4px"><b>{{nmbar}}</b></div>
             <div style="width: 25%;"><a href="#" spkid="{{spkid}}" @click="ambilSPK" class="button button-small button-fill color-blue btn-ambil">Ambil</a></div>
           </div>
-          {{nama}}<br>{{alamat}}
+          {{keluhan}}
         </div>
       </div>
     </div>
@@ -49,16 +49,10 @@
     // Component Methods
     methods: {
       
-      dateChg: function (e) {
-        app.data.currentDate = $$('#tgltrx').val();
-        // app.dialog.alert($$('#tgltrx').val());
-          
-        app.views.main.router.refreshPage();
-        // app.router.navigate('/', {
-        //   reloadCurrent: true,
-        //   ignoreCache: true,
-        // });
-      },
+      // dateChg: function (e) {
+      //   app.data.currentDate = $$('#tgltrx').val();
+      //   app.views.main.router.refreshPage();
+      // },
 
       ambilSPK: function (e) {
         
@@ -67,20 +61,32 @@
 
         // var strEncode = encodeURIComponent(number);
         
+        /*
         app.request({
-          url: "https://askitchen.com/api/spk/proses/" + number,
+          url: app.data.endpoint + "proses/" + number,
           method: 'POST',
-          contentType: 'application/json',
+          // contentType: 'application/json',
           statusCode: {
             200: function (xhr) {
 
+              console.log('update success, refreshing..')
               app.router.navigate('/', {
                 reloadCurrent: true,
                 ignoreCache: true,
               });
             }
           }
-        })
+        })*/
+        
+        app.request.post( app.data.endpoint + 'proses/' + number, [], function (res) {
+
+          console.log('update success, refreshing..')
+          app.router.navigate('/', {
+            reloadCurrent: true,
+            ignoreCache: true,
+          });
+        });
+    
       },
     },
   }

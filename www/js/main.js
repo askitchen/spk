@@ -24,6 +24,8 @@ var app = new Framework7({
       currentDate: null,
       bLogedIn: false,
       // token: null,
+
+      endpoint: 'https://askitchen.com/api/spk/'
     };
   },
   // App root methods
@@ -34,8 +36,8 @@ var app = new Framework7({
   on: {
 
     init: function () { // sama dengan onDeviceReady
-      pictureSource = navigator.camera.PictureSourceType;
-      destinationType = navigator.camera.DestinationType;
+      // pictureSource = navigator.camera.PictureSourceType;
+      // destinationType = navigator.camera.DestinationType;
 
       var imageData = localStorage.getItem('profile');
       if (imageData) {
@@ -71,7 +73,7 @@ var app = new Framework7({
                 app.data.currentDate = today;
               }
                       
-              var url = 'https://askitchen.com/api/spk/' + app.data.user;
+              var url = app.data.endpoint + app.data.user;
               
               app.request.getJSON(encodeURI(url), {/* Your param if set */}, function (data) {
 
@@ -109,7 +111,7 @@ var app = new Framework7({
               app.data.currentDate = today;
             }
       
-            var url = 'https://askitchen.com/api/spk/proses/' + app.data.user;
+            var url = app.data.endpoint + 'proses/' + app.data.user;
 
             app.request.getJSON(encodeURI(url), {/* Your param if set */}, function (data) {
               
@@ -246,24 +248,25 @@ $$('#my-login-screen .login-button').on('click', function () {
   // formData.gcmid = regId;
 
   
-  app.request.post('https://askitchen.com/api/spk/login', formData, function (res) {
+  app.request.post( app.data.endpoint + 'login', formData, function (res) {
     
     app.preloader.hide();
     
     // console.log(res)
     var data = JSON.parse(res);
 
-    if (data.message == 'Logged In') {
+    // if (data.message == 'Logged In') {
+    if (data.status == true) {
       // console.log('Active user: '+ data.full_name)
     
-      localStorage.setItem('email', user);
+      localStorage.setItem('user', user);
       // localStorage.setItem('password', password);
       // console.log('Current user: '+user)
 
       app.loginScreen.close('#my-login-screen');
       
       app.data.bLogedIn = true;
-      app.data.user     = data.full_name;
+      app.data.user     = user;
       app.data.password = password;
       // app.data.token = data.token;
       
@@ -277,6 +280,8 @@ $$('#my-login-screen .login-button').on('click', function () {
         reloadCurrent: true,
         ignoreCache: true,
       });
+    } else {
+      app.dialog.alert(data.message, 'Login User');
     }
   },
   function (xhr, status) {
@@ -288,9 +293,9 @@ $$('#my-login-screen .login-button').on('click', function () {
 
 $$('#my-login-screen').on('loginscreen:opened', function (e, loginScreen) {
   // set data ke form login
-  $$('#my-login-screen [name="usr"]').val(localStorage.getItem('email'));
+  $$('#my-login-screen [name="usr"]').val(localStorage.getItem('user'));
   // console.log('Login screen open')
-  // console.log('Current user: '+localStorage.getItem('email'))
+  // console.log('Current user: '+localStorage.getItem('user'))
 });
 
 $$('.profile-picture').on('click', function (e) {
@@ -346,7 +351,7 @@ $$(document).on('backbutton', function (e) {
     app.views.main.router.url == '/android_asset/www/index.html') {
     
       if (app.data.bLogedIn) {
-        app.request.post('https://askitchen.com/api/spk/logout', [], function (res) {
+        app.request.post(app.data.endpoint + 'logout', [], function (res) {
           navigator.app.exitApp();
         });
       } else
