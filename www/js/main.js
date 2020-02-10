@@ -361,7 +361,7 @@ $$(document).on('backbutton', function (e) {
 
 app.on('pageInit', function (page) {
 
-  $$('input').on('focus', function () {
+  $$('input, #info').on('focus', function () {
     
     $$('.kb').css('height', '280px');
     //var limit = $$(window).height() - 280;
@@ -371,7 +371,7 @@ app.on('pageInit', function (page) {
     }
   });
 
-  $$('input').on('blur', function () {
+  $$('input, #info').on('blur', function () {
     $$('.kb').css('height', '0px');
   });
 });
