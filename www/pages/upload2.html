@@ -87,7 +87,7 @@
             
             app.preloader.show();
             
-            app.request.post('https://apgroup.id/api/spk/finish/' + number, formData,
+            app.request.post(app.data.endpoint + 'finish/' + number, formData,
             
             function (res) { // sukses
               
