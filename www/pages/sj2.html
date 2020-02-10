@@ -1,0 +1,103 @@
+<template>
+        
+  <div class="block content">
+    <div class="list no-hairlines-md">
+      <ul>
+        <li>
+          <div class="row no-gutter">
+            <div class="col-50">
+              <div class="item-content top-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Tanggal input</div>
+                  <div class="item-input-wrap">
+                    <input id="tgltrx2" type="date" @change="dateChg" value="{{$root.currentDate}}"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-50">
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Default pull to refresh preloader-->
+    <!-- <div class="ptr-preloader">
+      <div class="preloader"></div>
+      <div class="ptr-arrow"></div>
+    </div> -->
+    {{#each data}}
+      <div class="card">
+        <div class="card-header"><span><b>{{spkid}}</b></span><span>{{tglinput}}</span></div>
+        <div class="card-content"> 
+          <div class="card-content-inner" style="padding: 5px 16px;">
+            <div style="width: 100%; display: inline-flex;">
+              <div style="width: 75%; margin-top: 4px"><b>{{customer_name}}</b></div>
+              <div style="width: 25%;">
+                <a href="#" spkid="{{spkid}}" @click="uploadFoto1" class="button button-small button-fill color-blue btn-upload">Mulai</a>
+                <a href="#" spkid="{{spkid}}" @click="uploadFoto2" style="margin-top: 5px;" class="button button-small button-fill color-blue btn-finish">Selesai</a>
+              </div>
+            </div>
+            {{address_display}}
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</template>
+<script>
+  return {
+    // Component Methods
+    methods: {
+      
+      /*
+      doCancel: function (e) {
+        
+        var $btnEl = e.srcElement;
+        var number = $$($btnEl).attr('spkid');
+        
+        app.request({
+          url: "https://askitchen.com/api/spk/cancel/" + number,
+          method: 'POST',
+          contentType: 'application/json',
+          statusCode: {
+            200: function (xhr) {
+              app.views.main.router.refreshPage();
+            }
+          }
+        })
+
+      },*/
+      dateChg: function (e) {
+        app.data.currentDate = $$('#tgltrx2').val();
+          
+        app.views.main.router.refreshPage();
+        // app.router.navigate('/', {
+        //   reloadCurrent: true,
+        //   ignoreCache: true,
+        // });
+      },
+      
+      uploadFoto1: function (e) {
+        
+        var $btnEl = e.srcElement;
+        var number = $$($btnEl).attr('spkid');
+
+        var strEncode = encodeURIComponent(number);
+          
+        app.router.navigate('/upload-start/' + strEncode);
+      },
+      
+      uploadFoto2: function (e) {
+        
+        var $btnEl = e.srcElement;
+        var number = $$($btnEl).attr('spkid');
+
+        var strEncode = encodeURIComponent(number);
+          
+        app.router.navigate('/upload-finish/' + strEncode);
+      },
+    },
+  }
+</script>

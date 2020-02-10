@@ -1,0 +1,87 @@
+<template>
+
+  <div class="block content">
+        
+    <div class="list no-hairlines-md">
+      <ul>
+        <li>
+          <div class="row no-gutter">
+            <div class="col-50">
+              <div class="item-content top-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Tanggal input</div>
+                  <div class="item-input-wrap">
+                    <input id="tgltrx" type="date" @change="dateChg" value="{{$root.currentDate}}"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-50">
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Default pull to refresh preloader-->
+    <!-- <div class="ptr-preloader">
+      <div class="preloader"></div>
+      <div class="ptr-arrow"></div>
+    </div> -->
+    {{#each data}}
+    <div class="card">
+      <div class="card-header"><span><b>{{spkid}}</b></span><span>{{tglinput}}</span></div>
+      <div class="card-content"> 
+        <div class="card-content-inner" style="padding: 5px 16px;">
+          <div style="width: 100%; display: inline-flex;">
+            <div style="width: 75%; margin-top: 4px"><b>{{nmbar}}</b></div>
+            <div style="width: 25%;"><a href="#" spkid="{{spkid}}" @click="ambilSPK" class="button button-small button-fill color-blue btn-ambil">Ambil</a></div>
+          </div>
+          {{nama}}<br>{{alamat}}
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</template>
+<script>
+  return {
+    // Component Methods
+    methods: {
+      
+      dateChg: function (e) {
+        app.data.currentDate = $$('#tgltrx').val();
+        // app.dialog.alert($$('#tgltrx').val());
+          
+        app.views.main.router.refreshPage();
+        // app.router.navigate('/', {
+        //   reloadCurrent: true,
+        //   ignoreCache: true,
+        // });
+      },
+
+      ambilSPK: function (e) {
+        
+        var $btnEl = e.srcElement;
+        var number = $$($btnEl).attr('spkid');
+
+        // var strEncode = encodeURIComponent(number);
+        
+        app.request({
+          url: "https://askitchen.com/api/spk/proses/" + number,
+          method: 'POST',
+          contentType: 'application/json',
+          statusCode: {
+            200: function (xhr) {
+
+              app.router.navigate('/', {
+                reloadCurrent: true,
+                ignoreCache: true,
+              });
+            }
+          }
+        })
+      },
+    },
+  }
+</script>
