@@ -25,7 +25,7 @@
       <div class="card">
         <!-- <div class="card-header"></div> -->
         <div class="card-content">
-          <div class="card-content-inner"><img id="cameraimage" src="img/noimage.png" style="height: 420px;" width="100%"></div>
+          <div class="card-content-inner"><img id="cameraimage" src="img/noimage.png" style="height: 400px;" width="100%"></div>
         </div>
         <div class="card-content">
           <div class="card-content-inner">
@@ -95,8 +95,6 @@
             $$('#komentar').val($$('#info').val());
             var formData = app.form.convertToData('.upload-form');
 
-            app.dialog.alert('function called!')
-            
             app.preloader.show();
             
             app.request.post(app.data.endpoint + 'start/' + number, formData,
