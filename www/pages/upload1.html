@@ -18,13 +18,14 @@
         <form class="upload-form form-ajax-submit">
           <input type="hidden" name="filedata" value="" id="filedata" />
           <input type="hidden" name="komentar" value="" id="komentar" />
+          <input type="hidden" name="jam_dtg"  value="" id="jam_dtg" />
         </form>
       </div>
 
       <div class="card">
         <!-- <div class="card-header"></div> -->
         <div class="card-content">
-          <div class="card-content-inner"><img id="cameraimage" src="img/noimage.png" style="height: 480px;" width="100%"></div>
+          <div class="card-content-inner"><img id="cameraimage" src="img/noimage.png" style="height: 420px;" width="100%"></div>
         </div>
         <div class="card-content">
           <div class="card-content-inner">
@@ -59,8 +60,8 @@
               sourceType: pictureSource.CAMERA,
               encodingType: Camera.EncodingType.JPEG,
               mediaType: Camera.MediaType.PICTURE,
-              targetWidth: 320, // 360
-              targetHeight: 480, // 360
+              targetWidth: 320,
+              targetHeight: 320,
               allowEdit: true,
               correctOrientation: true  //Corrects Android orientation quirks
               // popoverOptions: CameraPopoverOptions,
@@ -75,7 +76,11 @@
               // console.log('Failed because: ');
               app.dialog.alert(err);
             }, options);
-
+            
+            // set jam mulai
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            $$('jam_dtg').val(time);
           });
           
           
@@ -86,7 +91,11 @@
             var $btnEl = e.srcElement;
             var number = $$($btnEl).attr('spkid');
 
+            // set komentar
+            $$('#komentar').val($$('#info').val());
             var formData = app.form.convertToData('.upload-form');
+
+            app.dialog.alert('function called!')
             
             app.preloader.show();
             

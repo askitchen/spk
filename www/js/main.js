@@ -36,8 +36,8 @@ var app = new Framework7({
   on: {
 
     init: function () { // sama dengan onDeviceReady
-      // pictureSource = navigator.camera.PictureSourceType;
-      // destinationType = navigator.camera.DestinationType;
+      pictureSource = navigator.camera.PictureSourceType;
+      destinationType = navigator.camera.DestinationType;
 
       var imageData = localStorage.getItem('profile');
       if (imageData) {
@@ -145,10 +145,6 @@ var app = new Framework7({
             app.data.currentDate = today;
           }
 
-          // var today = new Date();
-
-          // $$('#tgltrx').val(today);
-          // $$('#tgltrx2').val(today);
           
           $$('.btn-refresh').on('click', function () {
             app.views.main.router.refreshPage();
@@ -187,7 +183,7 @@ var app = new Framework7({
       }
     },
     {
-      path: '/upload-finish/:spkid',
+      path: '/upload-finish/:spkid/:visit',
       async: function (routeTo, routeFrom, resolve, reject) {
         // Router instance
         var router = this;
@@ -197,6 +193,7 @@ var app = new Framework7({
 
         // User ID from request
         var spkid = decodeURIComponent(routeTo.params.spkid);
+        var visit = decodeURIComponent(routeTo.params.visit);
         // console.log('after decode: '+spkid)
 
         // Show Preloader
@@ -210,7 +207,7 @@ var app = new Framework7({
             componentUrl: './pages/upload2.html'
           },
           {
-            context: { spkid: spkid }
+            context: { spkid: spkid, visit: visit }
           });
         // };
       }
