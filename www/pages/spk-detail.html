@@ -1,0 +1,53 @@
+<template>
+  <div data-name="spk-detail" class="page">
+    <div class="navbar">
+      <div class="navbar-inner sliding">
+        <div class="left">
+            <a href="#" class="link back">
+                <i class="icon icon-back"></i>
+                <span class="ios-only">Back</span>
+            </a>
+        </div>
+        <div class="center">SPK {{spkid}}</div>
+        <div class="right"></div>
+      </div>
+    </div>
+    <div class="page-content">
+
+      <div class="block content" style="margin: 16px 0;">
+      
+        <div class="card" style="font-size: 11px;">
+          <div class="card-header"><span><b>Daftar Biaya</b></span></div>
+          <div class="card-content"> 
+            <div class="card-content-inner" style="padding: 5px 16px;">
+              {{#each biaya}}
+              <div style="width: 100%; display: inline-flex;">
+                <div style="width: 55%; margin-top: 4px">{{nama}}</div>
+                <div style="width: 5%; margin-top: 4px; text-align: right;">{{qty}}</div>
+                <div style="width: 20%; margin-top: 4px; text-align: right;">{{harga}}</div>
+                <div style="width: 20%; margin-top: 4px; text-align: right;">{{total}}</div>
+              </div>
+              {{/each}}
+          </div>
+          </div>
+        </div>
+      
+        <div class="card" style="font-size: 11px;">
+          <div class="card-header"><span><b>Spare part</b></span></div>
+          <div class="card-content"> 
+            <div class="card-content-inner" style="padding: 5px 16px;">
+              {{#each part}}
+              <div style="width: 100%; display: inline-flex;">
+                <div style="width: 55%; margin-top: 4px">{{nama}}</div>
+                <div style="width: 5%; margin-top: 4px; text-align: right;">{{qty}}</div>
+                <div style="width: 20%; margin-top: 4px; text-align: right;">{{harga}}</div>
+                <div style="width: 20%; margin-top: 4px; text-align: right;">{{total}}</div>
+              </div>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

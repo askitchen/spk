@@ -1,33 +1,7 @@
 <template>
 
-  <div class="block content">
-        
-    <!-- <div class="list no-hairlines-md">
-      <ul>
-        <li>
-          <div class="row no-gutter">
-            <div class="col-50">
-              <div class="item-content top-content item-input">
-                <div class="item-inner">
-                  <div class="item-title item-label">Tanggal input</div>
-                  <div class="item-input-wrap">
-                    <input id="tgltrx" type="date" @change="dateChg" value="{{$root.currentDate}}"/>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-50">
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div> -->
-    
-    <!-- Default pull to refresh preloader-->
-    <!-- <div class="ptr-preloader">
-      <div class="preloader"></div>
-      <div class="ptr-arrow"></div>
-    </div> -->
+  <div class="block content" style="margin: 16px 0;">
+
     {{#each data}}
     <div class="card">
       <div class="card-header"><span><b>{{spkid}}</b></span><span>{{tglinput}}</span></div>
@@ -49,38 +23,15 @@
     // Component Methods
     methods: {
       
-      // dateChg: function (e) {
-      //   app.data.currentDate = $$('#tgltrx').val();
-      //   app.views.main.router.refreshPage();
-      // },
-
       ambilSPK: function (e) {
         
         var $btnEl = e.srcElement;
         var number = $$($btnEl).attr('spkid');
 
-        // var strEncode = encodeURIComponent(number);
-        
-        /*
-        app.request({
-          url: app.data.endpoint + "proses/" + number,
-          method: 'POST',
-          // contentType: 'application/json',
-          statusCode: {
-            200: function (xhr) {
-
-              console.log('update success, refreshing..')
-              app.router.navigate('/', {
-                reloadCurrent: true,
-                ignoreCache: true,
-              });
-            }
-          }
-        })*/
         
         app.request.post( app.data.endpoint + 'proses/' + number, [], function (res) {
 
-          console.log('update success, refreshing..')
+          // console.log('update success, refreshing..')
           app.router.navigate('/', {
             reloadCurrent: true,
             ignoreCache: true,

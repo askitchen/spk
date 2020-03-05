@@ -19,6 +19,8 @@ var app = new Framework7({
   data: function () {
     return {
       // db: null,
+      spkid: null,
+      // kode: null,
       user: null,
       password: null,
       currentDate: null,
@@ -192,8 +194,8 @@ var app = new Framework7({
         var app = router.app;
 
         // User ID from request
-        var spkid = decodeURIComponent(routeTo.params.spkid);
-        var visit = decodeURIComponent(routeTo.params.visit);
+        var spkid = routeTo.params.spkid;
+        var visit = routeTo.params.visit;
         // console.log('after decode: '+spkid)
 
         // Show Preloader
@@ -212,7 +214,43 @@ var app = new Framework7({
         // };
       }
     },
-    
+    {
+      path: '/spk-detail/:spkid',
+      async: function (routeTo, routeFrom, resolve, reject) {
+        // Router instance
+        var router = this;
+  
+        // App instance
+        var app = router.app;
+
+        // User ID from request
+        var spkid = routeTo.params.spkid;
+
+        // Show Preloader
+        app.preloader.show();
+        
+        var url = app.data.endpoint + 'spk-detail/' + spkid;
+        console.log('url: ' + url)
+
+        app.request.getJSON(url, {/* Your param if set */}, function (data) {
+
+          console.log(data)
+          app.preloader.hide();
+          
+          resolve({ 
+            componentUrl: './pages/spk-detail.html'
+          },
+          {
+            context: { spkid: spkid, biaya: data.biaya, part: data.part }
+          });
+        });
+      }
+    },
+    {
+      path: '/search/',
+      componentUrl: './pages/search.html',
+    },
+      
   ],
   // Enable panel left visibility breakpoint
   panel: {
@@ -368,17 +406,7 @@ app.on('pageInit', function (page) {
     }
   });
 
-  /*
-  $$('#info').on('focus', function () {
-    
-    $$('.kb').css('height', '560px');
-    //var limit = $$(window).height() - 280;
-
-    if ($$(this).offset().top > 280) {
-      $$('.page-content').scrollTop($$(this).offset().top-560);
-    }
-  });*/
-
+  
   $$('input, #info').on('blur', function () {
     $$('.kb').css('height', '0px');
   });

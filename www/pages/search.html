@@ -1,0 +1,133 @@
+<template>
+  <div class="page">
+    <div class="navbar search">
+      <div class="navbar-inner sliding">
+        <div class="left search">
+          
+          <!-- Searchbar with auto init -->
+          <form class="searchbar list-stock">
+            <div class="searchbar-inner">
+              <div class="searchbar-input-wrap">
+                <input id="searchTerm" type="search" placeholder="Search for" autofocus>
+                <i class="searchbar-icon"></i>
+                <span class="input-clear-button"></span>
+              </div>
+              <span class="searchbar-disable-button">Cancel</span>
+            </div>
+          </form>
+
+          <!-- Searchbar backdrop -->
+          <div class="searchbar-backdrop"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="page-content">
+      
+      <!-- Nothing found message -->
+      <div class="block searchbar-not-found">
+        <div class="block-inner">Item tidak ditemukan!</div>
+      </div>
+
+      <div class="list media-list virtual-list virtual-stock searchbar-found">
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  return {
+    // Page Events
+    on: {
+      
+      pageInit: function(e, page) {
+
+        // create searchbar
+        var searchbar = app.searchbar.create({
+          el: '.list-stock', //.searchbar',
+          customSearch: true,
+          searchContainer: '.list.media-list.virtual-list.virtual-stock',
+          // searchIn: '.item-title',
+          on: {
+            search(sb, query, previousQuery) {
+              
+              app.request.getJSON( app.data.endpoint + 'search-item?q='+query, function(res) {
+                
+                // var data = JSON.parse(res);
+                var items = res.data;
+
+                var virtualList = app.virtualList.create({
+                  // List Element
+                  el: '.list.media-list.virtual-list.virtual-stock',
+                  // Pass array with items
+                  items: items,
+                  // List item Template7 template
+                  itemTemplate:
+                    '<li>' +
+                      '<a href="#" class="item-link item-content">' +
+                        '<input type="hidden" class="kode" value="{{kdbar}}" />' +
+                        '<input type="hidden" class="harga" value="{{hjual}}" />' +
+                        // '<div class="item-media"><img src="{{#if gambar}}{{#js_if "this.prefix == \'http\' || this.prefix == \'data\'"}}{{gambar}}{{else}}https://apgroup.id/{{gambar}}{{/js_if}}{{else}}https://askitchen.com/images/noimage2.png{{/if}}" style="max-height:70px; max-width:70px;" /></div>' +
+                        '<div class="item-media"><img src="img/part.png" style="max-height:70px; max-width:70px;" /></div>' +
+                        '<div class="item-inner">' +
+                          '<div class="item-title-row">' +
+                            '<div class="item-title"><b>{{nama}}</b></div>' +
+                          '</div>' +
+                          // '<div class="item-text product-price">Rp{{hjual}}</div>' +
+                          '<div class="item-text">{{kdbar}}</div>' +
+                        '</div>' +
+                      '</a>' +
+                    '</li>',
+                  // Item height
+                  //height: app.theme === 'ios' ? 63 : 73,
+                });
+
+              });
+            },
+            disable(sb) {
+              // console.log('Search canceled!');
+              // app.router.back('/', {force: true});
+              var view = app.views.current;
+              // console.log(view.history);
+              
+              if (view.history.length > 1) {
+                view.router.back(view.history[view.history.length-2], { force: true });
+              } else {
+                view.router.back('/tab2/', {force: true});
+              }
+            }
+          }
+        });
+                
+        app.preloader.hide();
+        
+        $$('#searchTerm').focus();
+                
+        $$('.list.media-list.virtual-list.virtual-stock').on('click', '.item-link.item-content', function (e) {
+          
+          var kode  = $$(this).find('.kode').val();
+          var harga = $$(this).find('.harga').val();
+
+          console.log(kode)
+          console.log(harga)
+          // app.data.kode = kode;
+
+          var formData = [];
+          formData.kode  = kode;
+          formData.harga = harga;
+          formData.spkid = app.data.spkid;
+
+          app.request.post( app.data.endpoint + 'add-spart', formData, function (res) {
+    
+          });
+
+          app.router.navigate('/tab2/', {
+            reloadCurrent: true,
+            ignoreCache: true,
+          });
+          // $$('.btn-search').trigger('click');        
+        });
+
+      }
+    }
+  }
+</script>

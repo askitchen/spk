@@ -1,46 +1,32 @@
 <template>
         
-  <div class="block content">
+  <div class="block content" style="margin: 16px 0;">
     
-    <!-- <div class="list no-hairlines-md">
-      <ul>
-        <li>
-          <div class="row no-gutter">
-            <div class="col-50">
-              <div class="item-content top-content item-input">
-                <div class="item-inner">
-                  <div class="item-title item-label">Tanggal input</div>
-                  <div class="item-input-wrap">
-                    <input id="tgltrx2" type="date" @change="dateChg" value="{{$root.currentDate}}"/>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-50">
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div> -->
-    
-    <!-- Default pull to refresh preloader-->
-    <!-- <div class="ptr-preloader">
-      <div class="preloader"></div>
-      <div class="ptr-arrow"></div>
-    </div> -->
     {{#each data}}
       <div class="card">
         <div class="card-header"><span><b>{{spkid}}</b></span><span>{{tglinput}}</span></div>
         <div class="card-content"> 
           <div class="card-content-inner" style="padding: 5px 16px;">
-            <div>K-{{visit}}</div>
             <div style="width: 100%; display: inline-flex;">
-              <div style="width: 75%; margin-top: 4px"><b>{{nmbar}} {{stat}}</b></div>
+              <div style="width: 75%; margin-top: 4px">
+                K-{{visit}}
+              </div>
+              <div style="width: 25%; margin-top: 4px">
+                {{#js_if "this.stat == 'F'"}}
+                <a href="#" spkid="{{spkid}}" @click="viewDetail" class="button button-small button-fill color-blue btn-detail">Detail</a>
+                {{/js_if}}
+              </div>
+            </div>
+            <div style="width: 100%; display: inline-flex;">
+              <div style="width: 75%; margin-top: 4px">
+                <b>{{nmbar}} {{stat}}</b>
+              </div>
               <div style="width: 25%;">
                 {{#js_if "this.stat == 'S'"}}
                 <a href="#" spkid="{{spkid}}" @click="uploadFoto1" class="button button-small button-fill color-blue btn-start">Mulai</a>
                 {{/js_if}}
                 {{#js_if "this.stat == 'F'"}}
+                <a href="#" spkid="{{spkid}}" visit="{{visit}}" @click="addSPart" style="margin-top: 5px;" class="button button-small button-fill color-blue btn-spart">S. Part</a>
                 <a href="#" spkid="{{spkid}}" visit="{{visit}}" @click="uploadFoto2" style="margin-top: 5px;" class="button button-small button-fill color-blue btn-finish">Selesai</a>
                 {{/js_if}}
               </div>
@@ -57,46 +43,39 @@
     // Component Methods
     methods: {
       
-      /*
-      doCancel: function (e) {
+      viewDetail: function (e) {
         
         var $btnEl = e.srcElement;
         var number = $$($btnEl).attr('spkid');
-        
-        app.request({
-          url: app.data.endpoint + "cancel/" + number,
-          method: 'POST',
-          contentType: 'application/json',
-          statusCode: {
-            200: function (xhr) {
-              app.views.main.router.refreshPage();
-            }
-          }
-        })
 
+        app.router.navigate('/spk-detail/' + number);
       },
-      dateChg: function (e) {
-        app.data.currentDate = $$('#tgltrx2').val();
-        app.views.main.router.refreshPage();
-      },*/
       
       uploadFoto1: function (e) {
         
         var $btnEl = e.srcElement;
         var number = $$($btnEl).attr('spkid');
-
-        // var strEncode = encodeURIComponent(number);
           
         app.router.navigate('/upload-start/' + number);
       },
       
+      addSPart: function (e) {
+        app.data.kode = '';
+
+        var $btnEl = e.srcElement;
+        app.data.spkid =  $$($btnEl).attr('spkid');
+        
+        app.router.navigate('/search/', {
+              reloadCurrent: true,
+              ignoreCache: true,
+            });
+      },
+        
       uploadFoto2: function (e) {
         
         var $btnEl = e.srcElement;
         var number = $$($btnEl).attr('spkid');
         var visit  = $$($btnEl).attr('visit');
-
-        // var strEncode = encodeURIComponent(number);
           
         app.router.navigate('/upload-finish/' + number + '/' + visit);
       },
