@@ -38,8 +38,8 @@ var app = new Framework7({
   on: {
 
     init: function () { // sama dengan onDeviceReady
-      pictureSource = navigator.camera.PictureSourceType;
-      destinationType = navigator.camera.DestinationType;
+      // pictureSource = navigator.camera.PictureSourceType;
+      // destinationType = navigator.camera.DestinationType;
 
       var imageData = localStorage.getItem('profile');
       if (imageData) {
@@ -230,18 +230,48 @@ var app = new Framework7({
         app.preloader.show();
         
         var url = app.data.endpoint + 'spk-detail/' + spkid;
-        console.log('url: ' + url)
 
         app.request.getJSON(url, {/* Your param if set */}, function (data) {
 
-          console.log(data)
+          // console.log(data)
           app.preloader.hide();
           
           resolve({ 
             componentUrl: './pages/spk-detail.html'
           },
           {
-            context: { spkid: spkid, biaya: data.biaya, part: data.part }
+            context: { spkid: spkid, part: data.part, biaya: data.biaya }
+          });
+        });
+      }
+    },
+    {
+      path: '/spk-part/:spkid',
+      async: function (routeTo, routeFrom, resolve, reject) {
+        // Router instance
+        var router = this;
+  
+        // App instance
+        var app = router.app;
+
+        // User ID from request
+        var spkid = routeTo.params.spkid;
+
+        // Show Preloader
+        app.preloader.show();
+        
+        var url = app.data.endpoint + 'spk-detail/' + spkid;
+
+        app.request.getJSON(url, {/* Your param if set */}, function (data) {
+
+          // console.log(data)
+          app.preloader.hide();
+          
+          resolve({ 
+            componentUrl: './pages/spk-part.html'
+          },
+          {
+            context: { spkid: spkid, part: data.part, biaya: data.biaya }
           });
         });
       }

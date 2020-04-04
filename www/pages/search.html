@@ -89,11 +89,12 @@
               var view = app.views.current;
               // console.log(view.history);
               
-              if (view.history.length > 1) {
-                view.router.back(view.history[view.history.length-2], { force: true });
-              } else {
-                view.router.back('/tab2/', {force: true});
-              }
+              view.router.back(view.history[view.history.length-1], { force: true });
+              // if (view.history.length > 1) {
+              //   view.router.back(view.history[view.history.length-2], { force: true });
+              // } else {
+              //   view.router.back('/tab2/', {force: true});
+              // }
             }
           }
         });
@@ -105,15 +106,16 @@
         $$('.list.media-list.virtual-list.virtual-stock').on('click', '.item-link.item-content', function (e) {
           
           var kode  = $$(this).find('.kode').val();
-          var harga = $$(this).find('.harga').val();
+          // var harga = $$(this).find('.harga').val();
 
-          console.log(kode)
-          console.log(harga)
+          // console.log(kode)
+          // console.log(harga)
           // app.data.kode = kode;
 
           var formData = [];
           formData.kode  = kode;
-          formData.harga = harga;
+          formData.qty   = 1;
+          // formData.harga = harga;
           formData.spkid = app.data.spkid;
 
           app.request.post( app.data.endpoint + 'add-spart', formData, function (res) {

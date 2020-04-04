@@ -38,6 +38,10 @@
           <a href="#" class="button button-fill color-blue btn-foto">Ambil Foto</a>
           <a href="#" spkid="{{spkid}}" class="button button-fill color-blue btn-upload">Upload Foto</a>
         </div>
+        <div class="card-footer">
+          <a href="#" class="button button-fill color-blue btn-foto2">Foto Nota</a>
+          <a href="#" spkid="{{spkid}}" class="button button-fill color-blue btn-upload2">Upload Foto</a>
+        </div>
       </div>
     
       <div class="kb"></div>
@@ -50,10 +54,83 @@
       on: {
         
         pageInit: function(e, page) {
+
+          var ac_photo = app.actions.create({
+            buttons: [
+              {
+                text: 'Gunakan kamera',
+                onClick: function () {
+                      
+                  // app.dialog.alert('Camera!');
+                  var options = {
+                    quality: 50,
+                    destinationType: destinationType.DATA_URL,
+                    sourceType: Camera.PictureSourceType.CAMERA,
+                    encodingType: Camera.EncodingType.JPEG,
+                    mediaType: Camera.MediaType.PICTURE,
+                    targetWidth: 320, // 360
+                    targetHeight: 480, // 360
+                    // allowEdit: true,
+                    correctOrientation: true  //Corrects Android orientation quirks
+                    // popoverOptions: CameraPopoverOptions,
+                    // saveToPhotoAlbum: false
+                  };
+
+                  // update camera image directive
+                  navigator.camera.getPicture(function cameraSuccess(imageData) {
+                    $$('#cameraimage').attr('src', "data:image/jpeg; base64," + imageData);
+                    $$('#filedata').val(imageData);
+                  }, function cameraError(err) {
+                    // console.log('Failed because: ');
+                    app.dialog.alert(err);
+                  }, options);
+                }
+              },
+              {
+                text: 'Ambil dari gallery',
+                onClick: function () {
+                      
+                  // app.dialog.alert('You choose gallery!');
+                  var options = {
+                    quality: 50,
+                    destinationType: destinationType.DATA_URL,
+                    sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+                    encodingType: Camera.EncodingType.JPEG,
+                    mediaType: Camera.MediaType.PICTURE,
+                    targetWidth: 320, // 360
+                    targetHeight: 480, // 360
+                    // allowEdit: true,
+                    correctOrientation: true  //Corrects Android orientation quirks
+                    // popoverOptions: CameraPopoverOptions,
+                    // saveToPhotoAlbum: false
+                  };
+
+                  // update camera image directive
+                  navigator.camera.getPicture(function cameraSuccess(imageData) {
+                    $$('#cameraimage').attr('src', "data:image/jpeg; base64," + imageData);
+                    $$('#filedata').val(imageData);
+                  }, function cameraError(err) {
+                    // console.log('Failed because: ');
+                    app.dialog.alert(err);
+                  }, options);
+                }
+              },
+              {
+                text: 'Cancel',
+                color: 'red',
+                // onClick: function () {
+                //   app.dialog.alert('Cancel clicked')
+                // }
+              },
+            ]
+          });
           
           // ambil foto
           $$('.btn-foto').on('click', function (e) {
+            
+            ac_photo.open();
 
+            /*
             var options = {
               quality: 50,
               destinationType: destinationType.DATA_URL,
@@ -81,10 +158,11 @@
             var today = new Date();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             $$('#jam_dtg').val(time);
+            */
           });
           
           
-          // upload foto ke server
+          // upload foto barang ke server
           $$('.btn-upload').on('click', function (e) {
             
             // ambil nomor SPK
@@ -105,32 +183,39 @@
               
               var view = app.views.current;
               view.router.back(view.history[0], { force: true });
-
-              /*
-              // get current date
-              var now = new Date();
-              var date = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
-
-          
-              app.request({
-                url: "https://apgroup.id/api/resource/Delivery Note/" + strEncode,
-                method: 'PUT',
-                contentType: 'application/json',
-                data: '{ "deliver_date" : "'+ date + '"}',
-                statusCode: {
-                  
-                  200: function (xhr) {
-                    var view = app.views.current;
-                    view.router.back(view.history[0], { force: true });
-                  }
-                }
-              })*/
-
             },
             function (xhr, status) { // gagal
     
               app.preloader.hide();
-              app.dialog.alert('Upload foto gagal!', 'Login User');
+              app.dialog.alert('Upload foto gagal!', 'Upload Foto');
+            });
+          });
+          
+          
+          // upload foto nota
+          $$('.btn-upload2').on('click', function (e) {
+            
+            // ambil nomor SPK
+            var $btnEl = e.srcElement;
+            var number = $$($btnEl).attr('spkid');
+
+            var formData = app.form.convertToData('.upload-form');
+
+            app.preloader.show();
+            
+            app.request.post(app.data.endpoint + 'nota/' + number, formData,
+            
+            function (res) { // sukses
+              
+              app.preloader.hide();
+              
+              var view = app.views.current;
+              view.router.back(view.history[0], { force: true });
+            },
+            function (xhr, status) { // gagal
+    
+              app.preloader.hide();
+              app.dialog.alert('Upload foto gagal!', 'Upload Foto');
             });
           });
         }

@@ -23,10 +23,11 @@
               </div>
               <div style="width: 25%;">
                 {{#js_if "this.stat == 'S'"}}
-                <a href="#" spkid="{{spkid}}" @click="uploadFoto1" class="button button-small button-fill color-blue btn-start">Mulai</a>
+                <a href="#" spkid="{{spkid}}" @click="cancelSPK" class="button button-small button-fill color-blue btn-cancel">Batal</a>
+                <a href="#" spkid="{{spkid}}" @click="uploadFoto1" style="margin-top: 5px;" class="button button-small button-fill color-blue btn-start">Mulai</a>
                 {{/js_if}}
                 {{#js_if "this.stat == 'F'"}}
-                <a href="#" spkid="{{spkid}}" visit="{{visit}}" @click="addSPart" style="margin-top: 5px;" class="button button-small button-fill color-blue btn-spart">S. Part</a>
+                <a href="/spk-part/{{spkid}}" spkid="{{spkid}}" visit="{{visit}}" style="margin-top: 5px;" class="button button-small button-fill color-blue btn-spart">S. Part</a>
                 <a href="#" spkid="{{spkid}}" visit="{{visit}}" @click="uploadFoto2" style="margin-top: 5px;" class="button button-small button-fill color-blue btn-finish">Selesai</a>
                 {{/js_if}}
               </div>
@@ -51,6 +52,22 @@
         app.router.navigate('/spk-detail/' + number);
       },
       
+      cancelSPK: function (e) {
+        
+        var $btnEl = e.srcElement;
+        var number = $$($btnEl).attr('spkid');
+
+        
+        app.request.post( app.data.endpoint + 'cancel/' + number, [], function (res) {
+
+          // console.log('update success, refreshing..')
+          app.router.navigate('/', {
+            reloadCurrent: true,
+            ignoreCache: true,
+          });
+        });
+      },
+      
       uploadFoto1: function (e) {
         
         var $btnEl = e.srcElement;
@@ -59,6 +76,7 @@
         app.router.navigate('/upload-start/' + number);
       },
       
+      /*
       addSPart: function (e) {
         app.data.kode = '';
 
@@ -69,7 +87,7 @@
               reloadCurrent: true,
               ignoreCache: true,
             });
-      },
+      },*/
         
       uploadFoto2: function (e) {
         
