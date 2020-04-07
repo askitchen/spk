@@ -113,20 +113,24 @@
           // app.data.kode = kode;
 
           var formData = [];
+          
           formData.kode  = kode;
           formData.qty   = 1;
           // formData.harga = harga;
           formData.spkid = app.data.spkid;
 
-          app.request.post( app.data.endpoint + 'add-spart', formData, function (res) {
-    
+          app.request.post( app.data.endpoint + 'add-spart', formData, 
+          function (res) { //sukses
+            var view = app.views.current;
+            view.router.back(view.history[view.history.length-2], { reloadCurrent: true, force: true });
+          },
+          function (res) { //gagal
+            app.router.navigate('/tab2/', {
+              reloadCurrent: true,
+              ignoreCache: true,
+            });
           });
 
-          app.router.navigate('/tab2/', {
-            reloadCurrent: true,
-            ignoreCache: true,
-          });
-          // $$('.btn-search').trigger('click');        
         });
 
       }

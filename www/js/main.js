@@ -38,8 +38,8 @@ var app = new Framework7({
   on: {
 
     init: function () { // sama dengan onDeviceReady
-      // pictureSource = navigator.camera.PictureSourceType;
-      // destinationType = navigator.camera.DestinationType;
+      pictureSource = navigator.camera.PictureSourceType;
+      destinationType = navigator.camera.DestinationType;
 
       var imageData = localStorage.getItem('profile');
       if (imageData) {
@@ -235,12 +235,19 @@ var app = new Framework7({
 
           // console.log(data)
           app.preloader.hide();
+          console.log(data)
           
           resolve({ 
             componentUrl: './pages/spk-detail.html'
           },
           {
-            context: { spkid: spkid, part: data.part, biaya: data.biaya }
+            context: { 
+              spkid: spkid,
+              part: data.part,
+              tot_spart: data.tot_spart,
+              biaya: data.biaya,
+              tot_biaya: data.tot_biaya
+            }
           });
         });
       }
@@ -271,7 +278,13 @@ var app = new Framework7({
             componentUrl: './pages/spk-part.html'
           },
           {
-            context: { spkid: spkid, part: data.part, biaya: data.biaya }
+            context: { 
+              spkid: spkid,
+              part: data.part,
+              tot_spart: data.tot_spart,
+              biaya: data.biaya,
+              tot_biaya: data.tot_biaya
+            }
           });
         });
       }
@@ -280,7 +293,6 @@ var app = new Framework7({
       path: '/search/',
       componentUrl: './pages/search.html',
     },
-      
   ],
   // Enable panel left visibility breakpoint
   panel: {

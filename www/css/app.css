@@ -6,6 +6,7 @@
 
 .md .block.content {
   padding: 0;
+  overflow: hidden;
 }
 
 /* Left Panel right border when it is visible by breakpoint */
