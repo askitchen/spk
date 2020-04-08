@@ -70,7 +70,7 @@
                     mediaType: Camera.MediaType.PICTURE,
                     targetWidth: 320, // 360
                     targetHeight: 480, // 360
-                    // allowEdit: true,
+                    allowEdit: true,
                     correctOrientation: true  //Corrects Android orientation quirks
                     // popoverOptions: CameraPopoverOptions,
                     // saveToPhotoAlbum: false
@@ -84,6 +84,11 @@
                     // console.log('Failed because: ');
                     app.dialog.alert(err);
                   }, options);
+            
+                  // set jam mulai
+                  var today = new Date();
+                  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                  $$('#jam_dtg').val(time);
                 }
               },
               {
@@ -99,7 +104,7 @@
                     mediaType: Camera.MediaType.PICTURE,
                     targetWidth: 320, // 360
                     targetHeight: 480, // 360
-                    // allowEdit: true,
+                    allowEdit: true,
                     correctOrientation: true  //Corrects Android orientation quirks
                     // popoverOptions: CameraPopoverOptions,
                     // saveToPhotoAlbum: false
@@ -113,6 +118,11 @@
                     // console.log('Failed because: ');
                     app.dialog.alert(err);
                   }, options);
+
+                  // set jam mulai
+                  var today = new Date();
+                  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                  $$('#jam_dtg').val(time);
                 }
               },
               {
@@ -129,8 +139,11 @@
           $$('.btn-foto').on('click', function (e) {
             
             ac_photo.open();
+          });
+          
+          // ambil foto
+          $$('.btn-foto2').on('click', function (e) {
 
-            /*
             var options = {
               quality: 50,
               destinationType: destinationType.DATA_URL,
@@ -155,10 +168,9 @@
             }, options);
             
             // set jam mulai
-            var today = new Date();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            $$('#jam_dtg').val(time);
-            */
+            // var today = new Date();
+            // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            // $$('#jam_dtg').val(time);
           });
           
           

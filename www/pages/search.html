@@ -121,10 +121,14 @@
 
           app.request.post( app.data.endpoint + 'add-spart', formData, 
           function (res) { //sukses
-            var view = app.views.current;
-            view.router.back(view.history[view.history.length-2], { reloadCurrent: true, force: true });
+
+            app.router.navigate('/spk-part/'+app.data.spkid, {
+              reloadCurrent: true,
+              ignoreCache: true,
+            });
           },
           function (res) { //gagal
+            
             app.router.navigate('/tab2/', {
               reloadCurrent: true,
               ignoreCache: true,

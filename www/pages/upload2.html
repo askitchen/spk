@@ -52,36 +52,89 @@
         
         pageInit: function(e, page) {
           
+          var ac_photo = app.actions.create({
+            buttons: [
+              {
+                text: 'Gunakan kamera',
+                onClick: function () {
+                      
+                  var options = {
+                    quality: 50,
+                    destinationType: destinationType.DATA_URL,
+                    sourceType: pictureSource.CAMERA,
+                    encodingType: Camera.EncodingType.JPEG,
+                    mediaType: Camera.MediaType.PICTURE,
+                    targetWidth: 320,
+                    targetHeight: 320,
+                    allowEdit: true,
+                    correctOrientation: true  //Corrects Android orientation quirks
+                    // popoverOptions: CameraPopoverOptions,
+                    // saveToPhotoAlbum: false
+                  };
+
+                  // update camera image directive
+                  navigator.camera.getPicture(function cameraSuccess(imageData) {
+                    $$('#cameraimage').attr('src', "data:image/jpeg; base64," + imageData);
+                    $$('#filedata').val(imageData);
+                  }, function cameraError(err) {
+                    // console.log('Failed because: ');
+                    app.dialog.alert(err);
+                  }, options);
+                  
+                  // set jam selesai
+                  var today = new Date();
+                  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                  $$('#jam_finish').val(time);
+                }
+              },
+              {
+                text: 'Ambil dari gallery',
+                onClick: function () {
+                      
+                  // app.dialog.alert('You choose gallery!');
+                  var options = {
+                    quality: 50,
+                    destinationType: destinationType.DATA_URL,
+                    sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+                    encodingType: Camera.EncodingType.JPEG,
+                    mediaType: Camera.MediaType.PICTURE,
+                    targetWidth: 320, // 360
+                    targetHeight: 480, // 360
+                    allowEdit: true,
+                    correctOrientation: true  //Corrects Android orientation quirks
+                    // popoverOptions: CameraPopoverOptions,
+                    // saveToPhotoAlbum: false
+                  };
+
+                  // update camera image directive
+                  navigator.camera.getPicture(function cameraSuccess(imageData) {
+                    $$('#cameraimage').attr('src', "data:image/jpeg; base64," + imageData);
+                    $$('#filedata').val(imageData);
+                  }, function cameraError(err) {
+                    // console.log('Failed because: ');
+                    app.dialog.alert(err);
+                  }, options);
+                  
+                  // set jam mulai
+                  var today = new Date();
+                  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                  $$('#jam_finish').val(time);
+                }
+              },
+              {
+                text: 'Cancel',
+                color: 'red',
+                // onClick: function () {
+                //   app.dialog.alert('Cancel clicked')
+                // }
+              },
+            ]
+          });
+          
           // ambil foto
           $$('.btn-foto').on('click', function (e) {
-
-            var options = {
-              quality: 50,
-              destinationType: destinationType.DATA_URL,
-              sourceType: pictureSource.CAMERA,
-              encodingType: Camera.EncodingType.JPEG,
-              mediaType: Camera.MediaType.PICTURE,
-              targetWidth: 320,
-              targetHeight: 320,
-              allowEdit: true,
-              correctOrientation: true  //Corrects Android orientation quirks
-              // popoverOptions: CameraPopoverOptions,
-              // saveToPhotoAlbum: false
-            };
-
-            // update camera image directive
-            navigator.camera.getPicture(function cameraSuccess(imageData) {
-              $$('#cameraimage').attr('src', "data:image/jpeg; base64," + imageData);
-              $$('#filedata').val(imageData);
-            }, function cameraError(err) {
-              // console.log('Failed because: ');
-              app.dialog.alert(err);
-            }, options);
             
-            // set jam selesai
-            var today = new Date();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            $$('#jam_finish').val(time);
+            ac_photo.open();
           });
           
           
@@ -106,26 +159,6 @@
               
               var view = app.views.current;
               view.router.back(view.history[0], { force: true });
-
-              /*
-              // get current date
-              var now = new Date();
-              var date = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
-
-          
-              app.request({
-                url: "https://apgroup.id/api/resource/Delivery Note/" + strEncode,
-                method: 'PUT',
-                contentType: 'application/json',
-                data: '{ "deliver_date" : "'+ date + '"}',
-                statusCode: {
-                  
-                  200: function (xhr) {
-                    var view = app.views.current;
-                    view.router.back(view.history[0], { force: true });
-                  }
-                }
-              })*/
 
             },
             function (xhr, status) { // gagal
