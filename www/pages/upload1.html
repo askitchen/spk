@@ -193,8 +193,9 @@
               
               app.preloader.hide();
               
-              var view = app.views.current;
-              view.router.back(view.history[0], { force: true });
+              $$('#cameraimage').attr('src', "img/noimage.png");
+              // var view = app.views.current;
+              // view.router.back(view.history[0], { force: true });
             },
             function (xhr, status) { // gagal
     
@@ -222,7 +223,7 @@
               app.preloader.hide();
               
               var view = app.views.current;
-              view.router.back(view.history[0], { force: true });
+              view.router.back(view.history[1], { force: true });
             },
             function (xhr, status) { // gagal
     
