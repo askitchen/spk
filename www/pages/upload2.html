@@ -158,7 +158,7 @@
               app.preloader.hide();
               
               var view = app.views.current;
-              view.router.back(view.history[0], { force: true });
+              view.router.back(view.history[0], { reloadCurrent: true, force: true });
 
             },
             function (xhr, status) { // gagal

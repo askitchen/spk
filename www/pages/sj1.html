@@ -4,7 +4,16 @@
 
     {{#each data}}
     <div class="card">
-      <div class="card-header"><span><b>{{spkid}}</b></span><span>{{tglinput}}</span></div>
+      <div class="card-header">
+        <span><b>{{spkid}}</b></span><span>{{tglinput}}</span>
+      </div>
+      <div class="card-content"> 
+        <div class="card-content-inner" style="padding: 0px 16px;">
+          <div style="width: 100%;">{{nama}}</div>
+          <div style="width: 100%;">{{alamat}}</div>
+          <div style="width: 100%;">Telp. {{telepon}}</div>
+        </div>
+      </div>
       <div class="card-content"> 
         <div class="card-content-inner" style="padding: 5px 16px;">
           <div style="width: 100%; display: inline-flex;">

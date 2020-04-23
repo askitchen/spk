@@ -87,13 +87,13 @@
               // console.log('Search canceled!');
               // app.router.back('/', {force: true});
               var view = app.views.current;
-              // console.log(view.history);
+              console.log(view.history);
               
-              view.router.back(view.history[view.history.length-1], { force: true });
               // if (view.history.length > 1) {
+              //   console.log('!!!');
               //   view.router.back(view.history[view.history.length-2], { force: true });
               // } else {
-              //   view.router.back('/tab2/', {force: true});
+                view.router.back('/tab2/', {force: true});
               // }
             }
           }

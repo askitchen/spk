@@ -38,10 +38,10 @@
           <a href="#" class="button button-fill color-blue btn-foto">Ambil Foto</a>
           <a href="#" spkid="{{spkid}}" class="button button-fill color-blue btn-upload">Upload Foto</a>
         </div>
-        <div class="card-footer">
+        <!-- <div class="card-footer">
           <a href="#" class="button button-fill color-blue btn-foto2">Foto Nota</a>
           <a href="#" spkid="{{spkid}}" class="button button-fill color-blue btn-upload2">Upload Foto</a>
-        </div>
+        </div> -->
       </div>
     
       <div class="kb"></div>
@@ -176,6 +176,9 @@
           
           // upload foto barang ke server
           $$('.btn-upload').on('click', function (e) {
+            var view = app.views.current;
+            view.router.back(view.history[0], { reloadCurrent: true, force: true });
+            return;
             
             // ambil nomor SPK
             var $btnEl = e.srcElement;
@@ -194,8 +197,8 @@
               app.preloader.hide();
               
               $$('#cameraimage').attr('src', "img/noimage.png");
-              // var view = app.views.current;
-              // view.router.back(view.history[0], { force: true });
+              var view = app.views.current;
+              view.router.back(view.history[0], { force: true });
             },
             function (xhr, status) { // gagal
     
