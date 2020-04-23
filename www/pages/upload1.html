@@ -176,9 +176,6 @@
           
           // upload foto barang ke server
           $$('.btn-upload').on('click', function (e) {
-            var view = app.views.current;
-            view.router.back(view.history[0], { reloadCurrent: true, force: true });
-            return;
             
             // ambil nomor SPK
             var $btnEl = e.srcElement;
