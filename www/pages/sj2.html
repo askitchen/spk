@@ -8,7 +8,7 @@
           <span><b>{{spkid}}</b></span><span>{{tglinput}}</span>
         </div>
         <div class="card-content"> 
-          <div class="card-content-inner" style="padding: 0px 16px;">
+          <div class="card-content-inner" style="padding: 5px 16px;">
             <div style="width: 100%;">{{nama}}</div>
             <div style="width: 100%;">{{alamat}}</div>
             <div style="width: 100%;">Telp. {{telepon}}</div>
@@ -31,8 +31,8 @@
                 <b>{{nmbar}}</b>
               </div>
               <div style="width: 25%;">
-                {{#js_if "this.stat == 'S'"}}
-                <a href="#" spkid="{{spkid}}" @click="cancelSPK" class="button button-small button-fill color-blue btn-cancel">Batal</a>
+                {{#js_if "this.stat == 'S'"}}{{#js_if "this.visit == 1"}}
+                <a href="#" spkid="{{spkid}}" @click="cancelSPK" class="button button-small button-fill color-blue btn-cancel">Batal</a>{{/js_if}}
                 <a href="#" spkid="{{spkid}}" @click="uploadFoto1" style="margin-top: 5px;" class="button button-small button-fill color-blue btn-start">Mulai</a>
                 {{/js_if}}
                 {{#js_if "this.stat == 'F'"}}
