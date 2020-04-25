@@ -75,7 +75,7 @@ var app = new Framework7({
                 app.data.currentDate = today;
               }
                       
-              var url = app.data.endpoint + app.data.user;
+              var url = app.data.endpoint; // + app.data.user;
               
               app.request.getJSON(encodeURI(url), {/* Your param if set */}, function (data) {
 
