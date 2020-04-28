@@ -35,10 +35,13 @@
       ambilSPK: function (e) {
         
         var $btnEl = e.srcElement;
-        var number = $$($btnEl).attr('spkid');
-
+        var spkid  = $$($btnEl).attr('spkid');
+          
+        var formData = {};
+        formData.spkid = spkid;
+        formData.teknisi = app.data.user;
         
-        app.request.post( app.data.endpoint + 'proses/' + number, [], function (res) {
+        app.request.post( app.data.endpoint + 'proses', formData, function (res) {
 
           // console.log('update success, refreshing..')
           app.router.navigate('/', {
