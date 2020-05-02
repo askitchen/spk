@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "364084057735",
+    "firebase_url": "https://ask-spk.firebaseio.com",
+    "project_id": "ask-spk",
+    "storage_bucket": "ask-spk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364084057735:android:3867c4728602edbbd30a22",
+        "android_client_info": {
+          "package_name": "com.app.ask.spk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "364084057735-iueb6mikct08c8ods6426u2hdhtrip9p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtYPqqqiaS83mlWq1w5t81nhfPF9bjTT8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364084057735-iueb6mikct08c8ods6426u2hdhtrip9p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

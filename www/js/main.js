@@ -18,13 +18,14 @@ var app = new Framework7({
   // App root data
   data: function () {
     return {
-      // db: null,
+      db: null,
       spkid: null,
       // kode: null,
       user: null,
       password: null,
       currentDate: null,
       bLogedIn: false,
+      push: null,
       // token: null,
 
       endpoint: 'https://askitchen.com/api/spk/'
@@ -45,6 +46,57 @@ var app = new Framework7({
       if (imageData) {
         $$('img.responsive.profile').attr('src', "data:image/jpeg; base64," + imageData);
       }
+    
+      //*
+      this.data.push = PushNotification.init({
+        "android": {},
+        "browser": {
+          "pushServiceURL": "http://push.api.phonegap.com/v1/push"
+        },
+        "ios": {
+            "sound": true,
+            "vibration": true,
+            "badge": true
+        },
+        "windows": {}
+      });
+
+      var push = this.data.push;
+
+      push.on('registration', function(data) {
+
+        var oldRegId = localStorage.getItem('RegId');
+        if (oldRegId !== data.registrationId) {
+            // Save new registration ID
+            localStorage.setItem('RegId', data.registrationId);
+            // Post registrationId to your app server as the value has changed
+            // app.dialog.alert('Registrasi Id berhasil!');
+        }
+
+      });
+
+      push.on('notification', function(data) {
+        
+        var db = app.data.db;
+    
+        if (db) {
+          
+          var now = new Date();
+          var date = now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate();
+          var time = now.getHours() + ":" + now.getMinutes()
+          
+          db.transaction(function(tx) {
+              db.transaction(function(tx) {
+                tx.executeSql('insert into notifikasi (tgl, jam, info) values (?, ?, ?);', [date, time, data.message]);
+              }, function(error) {
+                app.dialog.alert('insert error: ' + error.message);
+              });
+          });
+        }
+      
+        // show message
+        app.dialog.alert(data.message, 'SPK');
+      }); //*/
     }
   },      
   routes: [
@@ -317,9 +369,12 @@ $$('#my-login-screen .login-button').on('click', function () {
       return;
   }
   
+  var gcmid = localStorage.getItem('RegId');
+  
   app.preloader.show();
 
   var formData = app.form.convertToData('.login-form');
+  formData.gcmid = gcmid;
 
   // var regId = localStorage.getItem('RegId');
   // formData.gcmid = regId;

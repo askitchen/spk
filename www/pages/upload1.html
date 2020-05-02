@@ -68,8 +68,8 @@
                     sourceType: Camera.PictureSourceType.CAMERA,
                     encodingType: Camera.EncodingType.JPEG,
                     mediaType: Camera.MediaType.PICTURE,
-                    targetWidth: 320, // 360
-                    targetHeight: 480, // 360
+                    targetWidth: 320,
+                    targetHeight: 480,
                     allowEdit: true,
                     correctOrientation: true  //Corrects Android orientation quirks
                     // popoverOptions: CameraPopoverOptions,
@@ -193,7 +193,9 @@
               
               app.preloader.hide();
               
+              // clear image
               $$('#cameraimage').attr('src', "img/noimage.png");
+              
               var view = app.views.current;
               view.router.back(view.history[0], { force: true });
             },
