@@ -42,11 +42,10 @@
     <plugin name="cordova-plugin-device" source="npm" />
     <plugin name="cordova-plugin-camera" source="npm" />
     
-    <!-- <plugin name="cordova-plugin-file-transfer" source="npm" />
-    <plugin name="cordova-plugin-dialogs" source="npm" spec="~1.2.1" />
-    <plugin name="cordova-plugin-file" source="npm" />
+    <plugin name="cordova-plugin-dialogs" source="npm" />
+    <plugin name="cordova-plugin-file" source="npm" spec="~4.3.3" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
-    <plugin name="cordova-plugin-image-picker" source="npm" /> -->
+    <plugin name="cordova-plugin-sqlite-2" spec="~1.0.4" />
     
     <plugin name="cordova-plugin-whitelist" source="npm" />
 
