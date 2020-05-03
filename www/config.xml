@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
@@ -30,7 +30,7 @@
     <preference name="show-splash-screen-spinner" value="false"/>
     <preference name="auto-hide-splash-screen" value="true"/>
     <preference name="disable-cursor" value="false"/>
-    <preference name="android-minSdkVersion" value="16"/>
+    <preference name="android-minSdkVersion" value="19"/>
     <preference name="android-targetSdkVersion" value="28"/>
     <preference name="android-installLocation" value="auto"/>
     <preference name="phonegap-version" value="cli-7.1.0" />
@@ -40,13 +40,13 @@
         <variable name="FCM_VERSION" value="11.0.1" />
     </plugin>
 
-    <!-- <plugin name="cordova-plugin-device" source="npm" /> -->
+    <plugin name="cordova-plugin-device" source="npm" />
     <plugin name="cordova-plugin-camera" source="npm" />
     
-    <plugin name="cordova-plugin-dialogs" source="npm" />
-    <plugin name="cordova-plugin-file" source="npm" spec="6.0.0" /> <!-- ~4.3.3 -->
+    <!-- <plugin name="cordova-plugin-dialogs" source="npm" /> -->
+    <!-- <plugin name="cordova-plugin-file" source="npm" spec="~4.3.3" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
-    <plugin name="cordova-plugin-sqlite-2" spec="~1.0.5" />
+    <plugin name="cordova-plugin-sqlite-2" spec="~1.0.4" /> -->
     
     <plugin name="cordova-plugin-whitelist" source="npm" />
 
@@ -59,19 +59,24 @@
     <!--<icon src="img/icon/icon.png"/>-->
     <engine name="android" spec="~7.0.0" />
     <platform name="android">
-    <allow-intent href="market:*" />
-    <resource-file src="google-services.json" target="google-services.json" />
-    <icon src="res/icon/android/icon-36-ldpi.png" density="ldpi"/>
-    <icon src="res/icon/android/icon-48-mdpi.png" density="mdpi"/>
-    <icon src="res/icon/android/icon-72-hdpi.png" density="hdpi"/>
-    <icon src="res/icon/android/icon-96-xhdpi.png" density="xhdpi"/>
+        <allow-intent href="market:*" />
+        <resource-file src="google-services.json" target="google-services.json" /> <!-- cli8.0.0 or up -->
+        <icon src="res/icon/android/icon-36-ldpi.png" density="ldpi"/>
+        <icon src="res/icon/android/icon-48-mdpi.png" density="mdpi"/>
+        <icon src="res/icon/android/icon-72-hdpi.png" density="hdpi"/>
+        <icon src="res/icon/android/icon-96-xhdpi.png" density="xhdpi"/>
+        <splash src="res/screen/android/screen-hdpi-portrait.png" />
+        <splash density="port-ldpi"  src="res/screen/android/screen-ldpi-portrait.png" />
+        <splash density="port-mdpi"  src="res/screen/android/screen-mdpi-portrait.png" />
+        <splash density="port-hdpi"  src="res/screen/android/screen-hdpi-portrait.png" />
+        <splash density="port-xhdpi" src="res/screen/android/screen-xhdpi-portrait.png" />
     </platform>
 
     <!-- Define app splash screen for each platform. -->
-    <gap:splash src="res/screen/android/screen-ldpi-portrait.png" gap:platform="android" gap:qualifier="port-ldpi"/>
+    <!-- <gap:splash src="res/screen/android/screen-ldpi-portrait.png" gap:platform="android" gap:qualifier="port-ldpi"/>
     <gap:splash src="res/screen/android/screen-mdpi-portrait.png" gap:platform="android" gap:qualifier="port-mdpi"/>
     <gap:splash src="res/screen/android/screen-hdpi-portrait.png" gap:platform="android" gap:qualifier="port-hdpi"/>
-    <gap:splash src="res/screen/android/screen-xhdpi-portrait.png" gap:platform="android" gap:qualifier="port-xhdpi"/>
+    <gap:splash src="res/screen/android/screen-xhdpi-portrait.png" gap:platform="android" gap:qualifier="port-xhdpi"/> -->
 
     <access origin="*" />
 </widget>
