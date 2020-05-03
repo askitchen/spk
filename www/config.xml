@@ -37,16 +37,16 @@
     <preference name="android-build-tool" value="gradle" />
     
     <plugin name="phonegap-plugin-push" spec="2.2.1" source="npm"> <!--with camera-->
-        <variable name="FCM_VERSION" value="11.0.1" />
-    </plugin>
+    <!--    <variable name="FCM_VERSION" value="11.0.1" />
+    </plugin>-->
 
     <plugin name="cordova-plugin-device" source="npm" />
     <plugin name="cordova-plugin-camera" source="npm" />
     
     <!-- <plugin name="cordova-plugin-dialogs" source="npm" /> -->
-    <!-- <plugin name="cordova-plugin-file" source="npm" spec="~4.3.3" />
+    <plugin name="cordova-plugin-file" source="npm" spec="~4.3.3" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
-    <plugin name="cordova-plugin-sqlite-2" spec="~1.0.4" /> -->
+    <plugin name="cordova-plugin-sqlite-2" spec="~1.0.4" />
     
     <plugin name="cordova-plugin-whitelist" source="npm" />
 

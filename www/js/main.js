@@ -65,6 +65,7 @@ var app = new Framework7({
 
       push.on('registration', function(data) {
 
+        app.dialog.alert('RegId: ' + data.registrationId);
         var oldRegId = localStorage.getItem('RegId');
         if (oldRegId !== data.registrationId) {
             // Save new registration ID
