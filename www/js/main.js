@@ -6,8 +6,8 @@ var destinationType = null;
 
 var app = new Framework7({
   root: '#app',
+  id: 'io.framework7.ask.spk',
   name: 'ASKITCHEN',
-  id: 'com.app.ask.spk',
   init: true,
   initOnDeviceReady: true,
   
@@ -47,7 +47,7 @@ var app = new Framework7({
         $$('img.responsive.profile').attr('src', "data:image/jpeg; base64," + imageData);
       }
     
-      //*
+      /*
       this.data.push = PushNotification.init({
         "android": {},
         "browser": {
