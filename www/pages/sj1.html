@@ -36,7 +36,8 @@
         
         var $btnEl = e.srcElement;
         var spkid  = $$($btnEl).attr('spkid');
-          
+        
+        console.log(app.data.user)
         var formData = {};
         formData.spkid = spkid;
         formData.teknisi = app.data.user;
