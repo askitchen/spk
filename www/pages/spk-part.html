@@ -9,7 +9,12 @@
             </a>
         </div>
         <div class="center">SPK {{spkid}}</div>
-        <div class="right"></div>
+        <div class="right">
+          <a href="#" class="link icon-only" spkid="{{../spkid}}" @click="sendEmail">
+            <i class="icon f7-icons ios-only" spkid="{{../spkid}}">email</i>
+            <i class="icon material-icons md-only" spkid="{{../spkid}}">email</i>
+          </a>
+        </div>
       </div>
     </div>
     <div class="page-content">
@@ -23,15 +28,15 @@
           </div>
           <div class="card-content"> 
             <div class="card-content-inner" style="padding: 5px 16px;">
-              {{#each part}}
+              {{#each by_spart}}
               <div style="width: 100%; display: inline-flex;">
                 <div style="width: 40%; margin-top: 4px; white-space: nowrap; overflow: hidden;"><b><a @click="removePart" spkid="{{../spkid}}" item-code="{{kode}}" style="margin-right: 10px; color:black;">&nbsp;X&nbsp;</a></b>{{nama}}</div>
                 <div style="width: 5%; margin-top: 4px; text-align: right;">{{qty}}</div>
                 <div style="width: 20%; margin-top: 4px; text-align: right;">{{hargaf}}</div>
                 <div style="width: 20%; margin-top: 4px; text-align: right;">{{totalf}}</div>
                 <div style="width: 15%; margin-top: 4px; text-align: right;">
-                  <a class="btn-free" spkid="{{../spkid}}" item-code="{{kode}}" @click="setFreeItem"{{#js_if 'this.harga == 0'}} style="display: none"{{/js_if}}>Free</a>
-                  <a class="btn-reset" spkid="{{../spkid}}" item-code="{{kode}}" @click="resetItem"{{#js_if 'this.harga > 0'}} style="display: none"{{/js_if}}>Reset</a>
+                  <a class="btn-free" spkid="{{../spkid}}" item-index="{{urut}}" item-code="{{kode}}" @click="setFreeItem"{{#js_if 'this.harga == 0'}} style="display: none"{{/js_if}}>Free</a>
+                  <a class="btn-reset" spkid="{{../spkid}}" item-index="{{urut}}" item-code="{{kode}}" @click="resetItem"{{#js_if 'this.harga > 0'}} style="display: none"{{/js_if}}>Reset</a>
                 </div>
               </div>
               {{/each}}
@@ -43,14 +48,14 @@
           </div>
         </div>
         
+        <!-- biaya kunjungan -->
         <div class="card" style="font-size: 11px;">
           <div class="card-header">
-            <span><b>Biaya</b></span>
-            <!-- <span><a href="#" spkid="{{spkid}}" @click="addBiaya" class="button button-small button-fill color-blue btn-add2">Tambah</a></span> -->
+            <span><b>Biaya Kunjungan</b></span>
           </div>
           <div class="card-content"> 
             <div class="card-content-inner" style="padding: 5px 16px;">
-              {{#each biaya}}
+              {{#each by_kunjung}}
               <div style="width: 100%; display: inline-flex;">
                 <div style="width: 40%; margin-top: 4px; white-space: nowrap; overflow: hidden;">{{nama}}</div>
                 <div style="width: 5%; margin-top: 4px; text-align: right;">{{qty}}</div>
@@ -66,142 +71,233 @@
           </div>
           <div class="card-footer total" style="font-size: 12px">
             <span><b>Total:</b></span>
-            <span><b>Rp{{tot_biaya}}</b></span>
+            <span><b>Rp{{tot_bknjg}}</b></span>
           </div>
         </div>
+        
+        <!-- biaya servis -->
+        <div class="card" style="font-size: 11px;">
+          <div class="card-header">
+            <span><b>Biaya Servis</b></span>
+            <span><a href="#" spkid="{{spkid}}" @click="addCharge" class="button button-small button-fill color-blue btn-add">Tambah</a></span>
+          </div>
+          <div class="card-content"> 
+            <div class="card-content-inner" style="padding: 5px 16px;">
+              {{#each by_service}}
+              <div style="width: 100%; display: inline-flex;">
+                <div style="width: 40%; margin-top: 4px; white-space: nowrap; overflow: hidden;">{{nama}}</div>
+                <div style="width: 5%; margin-top: 4px; text-align: right;">{{qty}}</div>
+                <div style="width: 20%; margin-top: 4px; text-align: right;">{{hargaf}}</div>
+                <div style="width: 20%; margin-top: 4px; text-align: right;">{{totalf}}</div>
+                <div style="width: 15%; margin-top: 4px; text-align: right;">
+                  <a class="btn-free" spkid="{{../spkid}}" item-index="{{urut}}" item-code="{{kode}}" @click="setCharge">Set</a>
+                  <!-- <a class="btn-reset" spkid="{{../spkid}}" item-code="{{kode}}" @click="resetItem" style="display: none">Reset</a> -->
+                </div>
+              </div>
+              {{/each}}
+            </div>
+          </div>
+          <div class="card-footer total" style="font-size: 12px">
+            <span><b>Total:</b></span>
+            <span><b>Rp{{tot_bsvc}}</b></span>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 </template>
 <script>
-    return {
-      // Component Methods
-      methods: {
-        
-        setFreeItem: function (e) {
+  return {
+    // Component Methods
+    methods: {
+      
+      sendEmail: function (e) {
 
-          var $btnEl = e.srcElement;
-          var spkid  =  $$($btnEl).attr('spkid');
-          var code   =  $$($btnEl).attr('item-code');
-          
-          var formData = {};
-          formData.spkid = spkid;
-          formData.item_code = code;
+        var $btnEl = e.srcElement;
+        var spkid  = $$($btnEl).attr('spkid');
+        // app.dialog.alert('SPK #'+spkid, 'Send Email');
+        console.log(app.data.endpoint + 'mail-spk/'+spkid)
 
-          app.preloader.show();
+        var formData = {};
+        formData.spkid = spkid;
 
-          app.request.post(app.data.endpoint + 'free-item', formData,
+        app.preloader.show();
 
-            function (res) { // sukses
-              
-              app.preloader.hide();
-              
-              app.router.navigate('/spk-part/'+spkid, {
-                reloadCurrent: true,
-                ignoreCache: true,
-              });
-            }
-          );
-        },
-        
-        resetItem: function (e) {
+        app.request.post(app.data.endpoint + 'mail-spk/'+spkid, formData,
 
-          var $btnEl = e.srcElement;
-          var spkid  =  $$($btnEl).attr('spkid');
-          var code   =  $$($btnEl).attr('item-code');
-          
-          var formData = {};
-          formData.spkid = spkid;
-          formData.item_code = code;
-
-          app.preloader.show();
-
-          app.request.post(app.data.endpoint + 'reset-item', formData,
-
-            function (res) { // sukses
-              
-              app.preloader.hide();
-              
-              app.router.navigate('/spk-part/'+spkid, {
-                reloadCurrent: true,
-                ignoreCache: true,
-              });
-            }
-          );
-        },
-        
-        addSPart: function (e) {
-
-          var $btnEl = e.srcElement;
-          // will be used later
-          app.data.spkid  =  $$($btnEl).attr('spkid');
-          
-          app.router.navigate('/search/', {
+          function (res) { // sukses
+            
+            app.preloader.hide();
+            app.dialog.alert('Email telah dikirim.', 'SPK #'+spkid);
+            
+            app.router.navigate('/spk-part/'+spkid, {
               reloadCurrent: true,
               ignoreCache: true,
             });
-        },
+          }
+        );
+      },
+
+      setFreeItem: function (e) {
+
+        var $btnEl = e.srcElement;
+        var spkid  =  $$($btnEl).attr('spkid');
+        var code   =  $$($btnEl).attr('item-code');
         
-        addCharge: function (e) {
+        var formData = {};
+        formData.spkid = spkid;
+        formData.item_code = code;
 
-          var $btnEl = e.srcElement;
-          var spkid  =  $$($btnEl).attr('spkid');
-          var code   =  $$($btnEl).attr('item-code');
+        app.preloader.show();
 
-          var dialog = app.dialog.prompt('Input nominal biaya:', function (biaya) {
-    
-            if (biaya) {
+        app.request.post(app.data.endpoint + 'free-item', formData,
 
-              var formData = {};
-              formData.spkid = spkid;
-              formData.kode  = code;
-              formData.biaya = biaya;
+          function (res) { // sukses
+            
+            app.preloader.hide();
+            
+            app.router.navigate('/spk-part/'+spkid, {
+              reloadCurrent: true,
+              ignoreCache: true,
+            });
+          }
+        );
+      },
+      
+      resetItem: function (e) {
 
-              app.preloader.show();
-
-              app.request.post(app.data.endpoint + 'add-charge', formData,
-
-                function (res) { // sukses
-                  
-                  app.preloader.hide();
-
-                  app.router.navigate('/spk-part/'+spkid, {
-                    reloadCurrent: true,
-                    ignoreCache: true,
-                  });
-                }
-              );
-            }
-          });
-          dialog.$el.find('input').focus();
-
-        },
+        var $btnEl = e.srcElement;
+        var spkid  = $$($btnEl).attr('spkid');
+        var code   = $$($btnEl).attr('item-code');
         
-        removePart: function (e) {
+        var formData = {};
+        formData.spkid = spkid;
+        formData.item_code = code;
 
-          var $btnEl = e.srcElement;
-          var spkid  = $$($btnEl).attr('spkid');
-          var code   = $$($btnEl).attr('item-code');
+        app.preloader.show();
 
-          var formData = {};
-          formData.spkid = spkid;
-          formData.kode  = code;
+        app.request.post(app.data.endpoint + 'reset-item', formData,
 
-          app.preloader.show();
+          function (res) { // sukses
+            
+            app.preloader.hide();
+            
+            app.router.navigate('/spk-part/'+spkid, {
+              reloadCurrent: true,
+              ignoreCache: true,
+            });
+          }
+        );
+      },
+      
+      addSPart: function (e) {
 
-          app.request.post(app.data.endpoint + 'remove-spart', formData,
+        var $btnEl = e.srcElement;
+        // will be used later
+        app.data.spkid = $$($btnEl).attr('spkid');
+        ac_spart.open();
+        
+        // app.router.navigate('/search/', {
+        //     reloadCurrent: true,
+        //     ignoreCache: true,
+        //   });
+      },
+      
+      setCharge: function (e) {
 
-            function (res) { // sukses
-              
-              app.preloader.hide();
-                        
-              app.router.navigate('/spk-part/'+spkid, {
+        var $btnEl = e.srcElement;
+        var spkid  = $$($btnEl).attr('spkid');
+        var code   = $$($btnEl).attr('item-code');
+        var idx    = $$($btnEl).attr('item-index');
+
+        var dialog = app.dialog.prompt('Input nominal biaya:', function (biaya) {
+
+          if (biaya) {
+
+            var formData = {};
+            formData.spkid = spkid;
+            formData.kode  = code;
+            formData.biaya = biaya;
+
+            app.preloader.show();
+
+            app.request.post(app.data.endpoint + 'add-charge', formData,
+
+              function (res) { // sukses
+                
+                app.preloader.hide();
+
+                app.router.navigate('/spk-part/'+spkid, {
                   reloadCurrent: true,
                   ignoreCache: true,
                 });
-            }
-          );
-        },
-      }
+              }
+            );
+          }
+        });
+        dialog.$el.find('input').focus();
+      },
+              
+      addCharge: function (e) {
+
+        var $btnEl = e.srcElement;
+        var spkid  = $$($btnEl).attr('spkid');
+        // var code   = $$($btnEl).attr('item-code');
+
+        var dialog = app.dialog.prompt('Input nominal biaya:', function (biaya) {
+
+          if (biaya) {
+
+            var formData = {};
+            formData.spkid = spkid;
+            // formData.kode  = code;
+            formData.biaya = biaya;
+
+            app.preloader.show();
+
+            app.request.post(app.data.endpoint + 'add-charge', formData,
+
+              function (res) { // sukses
+                
+                app.preloader.hide();
+
+                app.router.navigate('/spk-part/'+spkid, {
+                  reloadCurrent: true,
+                  ignoreCache: true,
+                });
+              }
+            );
+          }
+        });
+        dialog.$el.find('input').focus();
+      },
+
+      removePart: function (e) {
+
+        var $btnEl = e.srcElement;
+        var spkid  = $$($btnEl).attr('spkid');
+        var code   = $$($btnEl).attr('item-code');
+
+        var formData = {};
+        formData.spkid = spkid;
+        formData.kode  = code;
+
+        app.preloader.show();
+
+        app.request.post(app.data.endpoint + 'remove-spart', formData,
+
+          function (res) { // sukses
+            
+            app.preloader.hide();
+                      
+            app.router.navigate('/spk-part/'+spkid, {
+                reloadCurrent: true,
+                ignoreCache: true,
+              });
+          }
+        );
+      },
     }
+  }
 </script>

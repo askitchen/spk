@@ -1,0 +1,101 @@
+<template>
+  <div class="page" data-name="spart-non">
+    <div class="navbar">
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="#" class="link back">
+            <i class="icon icon-back"></i>
+            <span class="ios-only">Back</span>
+          </a>
+        </div>
+        <div class="title">Sparepart Non ASKITCHEN</div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="block">
+      <form class="sp-non form-ajax-submit">
+      <input type="hidden" name="spkid" value="{{spkid}}" />
+      <input type="hidden" name="kode" value="SN" />
+      <div class="list no-hairlines-md">
+        <ul>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Nama Sparepart</div>
+                <div class="item-input-wrap">
+                    <input type="text" id="nama" name="nama" />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Harga Sparepart</div>
+                <div class="item-input-wrap">
+                    <input type="text" id="harga" name="harga" />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Qty</div>
+                <div class="item-input-wrap">
+                    <input type="text" id="qty" name="qty" />
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="content-block"><a href="#" class="button button-raised button-fill larger btn-add">Tambah</a></div>
+      </form>
+    </div>
+    </div>
+  </div>
+</template>
+<script>
+  return {
+    // Page Events
+    on: {
+    
+      pageInit: function(e, page) {
+        
+        $$('.btn-add').on('click', function () {
+          
+          var nama = $$('#nama').val();
+          if (nama === '') {
+              app.dialog.alert('Masukkan data nama sparepart.', 'Tambah Spare Part');
+              return;
+          }
+          
+          var harga = $$('#harga').val();
+          if (harga === '') {
+              app.dialog.alert('Masukkan data harga sparepart.', 'Tambah Spare Part');
+              return;
+          }
+          
+          var qty = $$('#qty').val();
+          if (qty === '') {
+              app.dialog.alert('Masukkan data qty sparepart.', 'Tambah Spare Part');
+              return;
+          }
+                    
+          app.preloader.show();
+
+          var formData = app.form.convertToData('.sp-non');
+          app.request.post(app.data.endpoint + 'add-non-ask', formData,
+
+            function (res) { // sukses
+              
+              app.preloader.hide();
+              app.router.back();
+            }
+          )
+        });
+      }
+    }
+  }
+</script>

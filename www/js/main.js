@@ -39,8 +39,8 @@ var app = new Framework7({
   on: {
 
     init: function () { // sama dengan onDeviceReady
-      pictureSource = navigator.camera.PictureSourceType;
-      destinationType = navigator.camera.DestinationType;
+      // pictureSource = navigator.camera.PictureSourceType;
+      // destinationType = navigator.camera.DestinationType;
 
       var imageData = localStorage.getItem('profile');
       if (imageData) {
@@ -296,10 +296,12 @@ var app = new Framework7({
           {
             context: { 
               spkid: spkid,
-              part: data.part,
+              by_spart: data.by_spart,
               tot_spart: data.tot_spart,
-              biaya: data.biaya,
-              tot_biaya: data.tot_biaya
+              by_kunjung: data.by_kunjung,
+              tot_bknjg: data.tot_bknjg,
+              by_service: data.by_service,
+              tot_bsvc: data.tot_bsvc
             }
           });
         });
@@ -333,10 +335,12 @@ var app = new Framework7({
           {
             context: { 
               spkid: spkid,
-              part: data.part,
+              by_spart: data.by_spart,
               tot_spart: data.tot_spart,
-              biaya: data.biaya,
-              tot_biaya: data.tot_biaya
+              by_kunjung: data.by_kunjung,
+              tot_bknjg: data.tot_bknjg,
+              by_service: data.by_service,
+              tot_bsvc: data.tot_bsvc
             }
           });
         });
@@ -346,6 +350,48 @@ var app = new Framework7({
       path: '/search/',
       componentUrl: './pages/search.html',
     },
+    {
+      path: '/spart-non/:spkid',
+      // componentUrl: './pages/add-spart-non.html',
+      async: function (routeTo, routeFrom, resolve, reject) {
+        // Router instance
+        var router = this;
+  
+        // App instance
+        var app = router.app;
+
+        // User ID from request
+        var spkid = routeTo.params.spkid;
+          
+        resolve({ 
+          componentUrl: './pages/add-spart-non.html'
+        },
+        {
+          context: { spkid: spkid }
+        });
+      }
+    },
+    {
+      path: '/spart-lap/:spkid',
+      // componentUrl: './pages/add-spart-lap.html',
+      async: function (routeTo, routeFrom, resolve, reject) {
+        // Router instance
+        var router = this;
+  
+        // App instance
+        var app = router.app;
+
+        // User ID from request
+        var spkid = routeTo.params.spkid;
+          
+        resolve({ 
+          componentUrl: './pages/add-spart-lap.html'
+        },
+        {
+          context: { spkid: spkid }
+        });
+      }
+    },
   ],
   // Enable panel left visibility breakpoint
   panel: {
@@ -354,6 +400,51 @@ var app = new Framework7({
 });
 
 var mainView = app.views.create('.view-main');
+
+
+var ac_spart = app.actions.create({
+  buttons: [
+    {
+      text: 'Sparepart ASKITCHEN',
+      onClick: function () {
+        
+        app.router.navigate('/search/', {
+          reloadCurrent: true,
+          ignoreCache: true,
+        });
+      }
+    },
+    {
+      text: 'Sparepart Non ASKITCHEN',
+      onClick: function () {
+        
+        console.log(app.data.spkid)
+        app.router.navigate('/spart-non/'+app.data.spkid, {
+          reloadCurrent: true,
+          ignoreCache: true,
+        });
+      }
+    },
+    {
+      text: 'Sparepart Lapangan',
+      onClick: function () {
+        
+        console.log(app.data.spkid)
+        app.router.navigate('/spart-lap/'+app.data.spkid, {
+          reloadCurrent: true,
+          ignoreCache: true,
+        });
+      }
+    },
+    {
+      text: 'Cancel',
+      color: 'red',
+      // onClick: function () {
+      //   app.dialog.alert('Cancel clicked')
+      // }
+    },
+  ]
+});
 
 // Login Screen
 $$('#my-login-screen .login-button').on('click', function () {
