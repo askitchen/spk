@@ -66,8 +66,9 @@
                       '<a href="#" class="item-link item-content">' +
                         '<input type="hidden" class="kode" value="{{kdbar}}" />' +
                         '<input type="hidden" class="harga" value="{{hjual}}" />' +
-                        // '<div class="item-media"><img src="{{#if gambar}}{{#js_if "this.prefix == \'http\' || this.prefix == \'data\'"}}{{gambar}}{{else}}https://apgroup.id/{{gambar}}{{/js_if}}{{else}}https://askitchen.com/images/noimage2.png{{/if}}" style="max-height:70px; max-width:70px;" /></div>' +
-                        '<div class="item-media"><img src="img/part.png" style="max-height:70px; max-width:70px;" /></div>' +
+                        '<input type="hidden" class="nama" value="{{nama}}" />' +
+                        '<div class="item-media"><img src="{{#if gambar}}{{#js_if "this.prefix == \'http\' || this.prefix == \'data\'"}}{{gambar}}{{else}}https://apgroup.id/{{gambar}}{{/js_if}}{{else}}https://askitchen.com/images/noimage2.png{{/if}}" style="max-height:70px; max-width:70px;" /></div>' +
+                        // '<div class="item-media"><img src="img/part.png" style="max-height:70px; max-width:70px;" /></div>' +
                         '<div class="item-inner">' +
                           '<div class="item-title-row">' +
                             '<div class="item-title"><b>{{nama}}</b></div>' +
@@ -106,35 +107,46 @@
         $$('.list.media-list.virtual-list.virtual-stock').on('click', '.item-link.item-content', function (e) {
           
           var kode  = $$(this).find('.kode').val();
+          var nama  = $$(this).find('.nama').val();
           // var harga = $$(this).find('.harga').val();
-
-          // console.log(kode)
-          // console.log(harga)
-          // app.data.kode = kode;
-
-          var formData = [];
           
-          formData.kode  = kode;
-          formData.qty   = 1;
-          // formData.harga = harga;
-          formData.spkid = app.data.spkid;
+          app.dialog.confirm("Yakin ingin menambahkan:<br>"+nama+"?", "Tambah Spare Part",
+          function () { //OK
 
-          app.request.post( app.data.endpoint + 'add-spart', formData, 
-          function (res) { //sukses
+            // console.log(kode)
+            // console.log(harga)
+            // app.data.kode = kode;
 
-            app.router.navigate('/spk-part/'+app.data.spkid, {
-              reloadCurrent: true,
-              ignoreCache: true,
-            });
-          },
-          function (res) { //gagal
+            var formData = [];
             
-            app.router.navigate('/tab2/', {
-              reloadCurrent: true,
-              ignoreCache: true,
-            });
-          });
+            formData.kode  = kode;
+            formData.qty   = 1;
+            // formData.harga = harga;
+            formData.spkid = app.data.spkid;
 
+            app.request.post( app.data.endpoint + 'add-spart', formData, 
+            function (res) { //sukses
+
+              app.router.navigate('/spk-part/'+app.data.spkid, {
+                reloadCurrent: true,
+                ignoreCache: true,
+              });
+            },
+            function (res) { //gagal
+              
+              app.router.navigate('/tab2/', {
+                reloadCurrent: true,
+                ignoreCache: true,
+              });
+            });
+
+          },
+          function () { //Cancel
+              app.router.navigate('/tab2/', {
+                reloadCurrent: true,
+                ignoreCache: true,
+              });
+          });
         });
 
       }

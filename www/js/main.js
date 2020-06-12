@@ -29,6 +29,7 @@ var app = new Framework7({
       // token: null,
 
       endpoint: 'https://askitchen.com/api/spk/'
+      // endpoint: 'http://localhost/askitchenweb/api/spk/'
     };
   },
   // App root methods
@@ -39,8 +40,8 @@ var app = new Framework7({
   on: {
 
     init: function () { // sama dengan onDeviceReady
-      // pictureSource = navigator.camera.PictureSourceType;
-      // destinationType = navigator.camera.DestinationType;
+      pictureSource = navigator.camera.PictureSourceType;
+      destinationType = navigator.camera.DestinationType;
 
       var imageData = localStorage.getItem('profile');
       if (imageData) {
@@ -491,7 +492,7 @@ $$('#my-login-screen .login-button').on('click', function () {
       
       app.data.bLogedIn = true;
       app.data.user     = user;
-      app.data.password = password;
+      // app.data.password = password;
       // app.data.token = data.token;
       
       // display driver name
