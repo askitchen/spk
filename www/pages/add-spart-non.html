@@ -91,7 +91,10 @@
             function (res) { // sukses
               
               app.preloader.hide();
-              app.router.back();
+              app.router.navigate('/spk-part/'+app.data.spkid, {
+                reloadCurrent: true,
+                ignoreCache: true,
+              });
             }
           )
         });

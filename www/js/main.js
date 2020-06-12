@@ -419,7 +419,7 @@ var ac_spart = app.actions.create({
       text: 'Sparepart Non ASKITCHEN',
       onClick: function () {
         
-        console.log(app.data.spkid)
+        // console.log(app.data.spkid)
         app.router.navigate('/spart-non/'+app.data.spkid, {
           reloadCurrent: true,
           ignoreCache: true,
@@ -430,7 +430,7 @@ var ac_spart = app.actions.create({
       text: 'Sparepart Lapangan',
       onClick: function () {
         
-        console.log(app.data.spkid)
+        // console.log(app.data.spkid)
         app.router.navigate('/spart-lap/'+app.data.spkid, {
           reloadCurrent: true,
           ignoreCache: true,
