@@ -28,7 +28,8 @@ var app = new Framework7({
       push: null,
       // token: null,
 
-      endpoint: 'https://askitchen.com/api/spk/'
+      // endpoint: 'https://askitchen.com/api/spk/'
+      endpoint: 'http://asovic.id/api/spk/'
       // endpoint: 'http://localhost/askitchenweb/api/spk/'
     };
   },
